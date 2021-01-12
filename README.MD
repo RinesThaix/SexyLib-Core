@@ -102,3 +102,6 @@ You can use them in messages passed to logger (or in translations) and they will
 
 `util:NewTimer(callback)` - creates new timer.
 - `callback` - callback for frame's `OnUpdate` execution.
+
+`util:AfterLogin(callback)` - execute given callback at a time player logs in. If player alreaddy logged in, execute it immediately.
+- `callback` - callback to be executed.

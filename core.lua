@@ -17,7 +17,7 @@ local function strReplace(str, this, that)
 end
 
 local util = {
-    Version = '1.0.0',
+    Version = '1.0.1',
     Colorize = function(self, str)
         for tag, color in pairs(colors) do str = strReplace(str, tag, color) end
         return str
@@ -116,8 +116,22 @@ local util = {
                 self.sinceLastUpdate = 0
             end
         end)
+    end,
+    AfterLogin = function(self, callback)
+        if self.logged then callback()
+        elseif not self.loginCallbacks then self.loginCallbacks = {callback}
+        else self.loginCallbacks[#self.loginCallbacks + 1] = callback end
     end
 }
+
+local frameForLogin = CreateFrame('FRAME')
+frameForLogin:RegisterEvent('PLAYER_LOGIN')
+frameForLogin:SetScript('OnEvent', function()
+    util.logged = true
+    if util.loginCallbacks then
+        for _, callback in pairs(util.loginCallbacks) do callback() end
+    end
+end)
 
 function SexyLib:Util()
     return util
