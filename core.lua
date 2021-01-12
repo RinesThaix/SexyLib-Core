@@ -167,7 +167,7 @@ local function initLogger(addonName, colorCode)
         end
     }
     if SexyLib.Localization then
-        local localization = SexyLib:Localization('Sexy Lib')
+        local localization = SexyLib:Localization(addonName)
         logger.supportsLocalization = true
         logger.LogErrorL = function(self, messageKey, ...)
             self:LogError(localization:Get(messageKey, ...))
@@ -179,7 +179,7 @@ local function initLogger(addonName, colorCode)
         logger.supportsLocalization = false
         local formatter = function(messageKey, ...)
             local message = messageKey
-            if ... ~= nil then message = message .. ': ' .. self:Implode(..., ', ') end
+            if ... ~= nil then message = message .. ': ' .. util:Implode(..., ', ') end
             return message
         end
         logger.LogErrorL = function(self, messageKey, ...)
